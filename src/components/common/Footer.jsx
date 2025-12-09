@@ -51,7 +51,7 @@ const Footer = () => {
               <div className="footer-brand">
                 <div className="brand-logo">
                   <FaHeart className="brand-icon" />
-                  <span className="brand-text">KATYANI<br /><span className="brand-subtext">LUXURY</span></span>
+                  <span className="brand-text">HARIPUSHP<br /><span className="brand-subtext">LUXURY</span></span>
                 </div>
                 <p className="brand-tagline">
                   Elevating everyday luxury with premium quality products and exceptional service.
@@ -105,7 +105,7 @@ const Footer = () => {
                   <FaMapMarkerAlt className="contact-icon" />
                   <div className="contact-info">
                     <strong>Address</strong>
-                    <p>212 Brabazon Road<br />London, UK</p>
+                    <p>218 Brabazon Road<br />London, UK</p>
                   </div>
                 </li>
                 <li>
@@ -175,7 +175,7 @@ const Footer = () => {
           <Row className="footer-bottom">
             <Col md={6}>
               <p className="copyright">
-                <FaCopyright /> {new Date().getFullYear()} <strong>Katyani Luxury</strong>. All rights reserved.
+                <FaCopyright /> {new Date().getFullYear()} <strong>Haripushp Luxury</strong>. All rights reserved.
               </p>
             </Col>
             <Col md={6}>
@@ -271,7 +271,7 @@ const Footer = () => {
         <Modal.Body className="modal-body-dark">
           <div className="policy-content">
             <h5>Terms of Service</h5>
-            <p>By accessing and using Katyani Luxury, you accept and agree to be bound by these terms.</p>
+            <p>By accessing and using Haripushp Luxury, you accept and agree to be bound by these terms.</p>
             
             <h6>1. Account Registration</h6>
             <p>You must provide accurate information when creating an account. You are responsible for maintaining account security.</p>
@@ -286,10 +286,10 @@ const Footer = () => {
             <p>Returns must be made within 30 days of delivery. Items must be unused and in original packaging.</p>
             
             <h6>5. Intellectual Property</h6>
-            <p>All content on this website is the property of Katyani Luxury and protected by copyright laws.</p>
+            <p>All content on this website is the property of Haripushp Luxury and protected by copyright laws.</p>
             
             <h6>6. Limitation of Liability</h6>
-            <p>Katyani Luxury shall not be liable for any indirect, incidental, or consequential damages.</p>
+            <p>Haripushp Luxury shall not be liable for any indirect, incidental, or consequential damages.</p>
           </div>
         </Modal.Body>
         <Modal.Footer className="modal-footer-dark">

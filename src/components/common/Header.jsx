@@ -79,7 +79,7 @@ const Header = () => {
             <div className="logo-container">
               <FaStore className="logo-icon" />
               <div className="logo-text">
-                <span className="logo-main">KATYANI</span>
+                <span className="logo-main">HARIPUSHP</span>
                 <span className="logo-sub">LUXURY</span>
               </div>
             </div>
