@@ -185,9 +185,7 @@ const OrderSuccess = () => {
                 ))}
               </div>
 
-              {/* Order Total */}
-             // OrderSuccess.jsx - Update the Order Total section
-
+             
 {/* Order Total */}
 
 <div className="bg-light p-3 rounded">

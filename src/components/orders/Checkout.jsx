@@ -1,5 +1,3 @@
-// Checkout.jsx - Complete file with handleAddressSubmit function
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
@@ -14,7 +12,7 @@ import {
   FaMapMarkerAlt, FaCreditCard, FaCheckCircle, 
   FaShoppingBag, FaLock, FaUser, FaHome,
   FaCity, FaMapPin, FaPhone, FaGlobe, FaExclamationTriangle,
-  FaSearch, FaSpinner, FaBuilding, FaShippingFast
+  FaSearch, FaSpinner, FaBuilding, FaShippingFast,FaTimes 
 } from 'react-icons/fa';
 import { formatPrice, getUserData } from '../../utils/helper';
 import { toast } from 'react-toastify';
@@ -238,6 +236,18 @@ const Checkout = () => {
     setPostcode(address.postcode || postcode);
   };
 
+   const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (addressErrors[name]) {
+      setAddressErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+
   // Manual address entry
   const handleManualAddressEntry = () => {
     setNewAddress(prev => ({
@@ -417,8 +427,7 @@ const Checkout = () => {
       <Row>
         <Col lg={8}>
           {/* Address Step */}
-          // Checkout.jsx - Complete updated version
-
+          
 {paymentStep === 'address' && (
   <Card className="mb-4">
     <Card.Body>
@@ -494,28 +503,285 @@ const Checkout = () => {
       )}
       
       {useNewAddress && (
-        <Form onSubmit={handleAddressSubmit}>
-          <h6 className="mb-3">
-            {addresses.length > 0 ? 'Enter a new delivery address:' : 'Enter delivery address:'}
-          </h6>
-          
-          {/* ... [rest of new address form remains the same] ... */}
-          
-          <div className="d-flex justify-content-between">
-            {addresses.length > 0 && (
-              <Button 
-                variant="outline-secondary" 
-                onClick={() => setUseNewAddress(false)}
-              >
-                Back to saved addresses
-              </Button>
-            )}
-            <Button type="submit" variant="primary">
-              Continue to Review
-            </Button>
-          </div>
-        </Form>
-      )}
+                        <div>
+                          <div className="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                              <h5 className="mb-1">Add New Address</h5>
+                              <p className="text-muted mb-0">Enter a new delivery address</p>
+                            </div>
+                            {addresses.length > 0 && (
+                              <Button 
+                                variant="outline-secondary" 
+                                size="sm"
+                                onClick={() => setUseNewAddress(false)}
+                              >
+                                <FaTimes className="me-1" />
+                                Cancel
+                              </Button>
+                            )}
+                          </div>
+                          
+                          <Form onSubmit={handleAddressSubmit}>
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group className="mb-3">
+                                  <Form.Label>
+                                    <FaUser className="me-2" />
+                                    Full Name *
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    name="name"
+                                    value={newAddress.name}
+                                    onChange={handleAddressChange}
+                                    isInvalid={!!addressErrors.name}
+                                    placeholder="John Smith"
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {addressErrors.name}
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group className="mb-3">
+                                  <Form.Label>
+                                    <FaPhone className="me-2" />
+                                    Phone Number *
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="tel"
+                                    name="phone"
+                                    value={newAddress.phone}
+                                    onChange={handleAddressChange}
+                                    isInvalid={!!addressErrors.phone}
+                                    placeholder="07123 456789"
+                                  />
+                                  <Form.Text className="text-muted">
+                                    Format: 07123 456789 or +44 7123 456789
+                                  </Form.Text>
+                                  <Form.Control.Feedback type="invalid">
+                                    {addressErrors.phone}
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+      
+                            {/* Postcode Search Section */}
+                            <Form.Group className="mb-3">
+                              <Form.Label>
+                                <FaMapPin className="me-2" />
+                                Find Address by Postcode *
+                              </Form.Label>
+                              <InputGroup>
+                                <Form.Control
+                                  type="text"
+                                  value={postcode}
+                                  onChange={handlePostcodeChange}
+                                  isInvalid={!!postcodeError}
+                                  placeholder="Enter UK postcode (e.g., SW1A 1AA)"
+                                  disabled={isSearching}
+                                />
+                                <Button 
+                                  variant="outline-secondary"
+                                  onClick={() => searchPostcode(postcode)}
+                                  disabled={!postcode.trim() || isSearching}
+                                >
+                                  {isSearching ? <FaSpinner className="fa-spin" /> : <FaSearch />}
+                                </Button>
+                              </InputGroup>
+                              {postcodeError && (
+                                <Form.Control.Feedback type="invalid" className="d-block">
+                                  {postcodeError}
+                                </Form.Control.Feedback>
+                              )}
+                              <Form.Text className="text-muted">
+                                Enter your postcode to auto-fill your address
+                              </Form.Text>
+                            </Form.Group>
+      
+                            {/* Address Suggestions Dropdown */}
+                            {showSuggestions && addressSuggestions.length > 0 && (
+                              <Card className="mb-3 border-primary">
+                                <Card.Body className="p-2">
+                                  <h6 className="mb-2">Select your address:</h6>
+                                  <ListGroup variant="flush">
+                                    {addressSuggestions.map((address, index) => (
+                                      <ListGroup.Item 
+                                        key={address.id || index}
+                                        action
+                                        onClick={() => handleSelectAddress(address)}
+                                        className="py-2"
+                                      >
+                                        <div className="d-flex align-items-center">
+                                          <FaMapMarkerAlt className="text-primary me-2" />
+                                          <div>
+                                            <strong>{address.street}</strong>
+                                            <div className="small text-muted">
+                                              {address.city}, {address.county}, {address.postcode}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </ListGroup.Item>
+                                    ))}
+                                    <ListGroup.Item 
+                                      action
+                                      onClick={handleManualAddressEntry}
+                                      className="py-2"
+                                    >
+                                      <div className="d-flex align-items-center">
+                                        <FaHome className="text-muted me-2" />
+                                        <div>
+                                          <strong>Enter address manually</strong>
+                                          <div className="small text-muted">
+                                            I'll fill in the details myself
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </ListGroup.Item>
+                                  </ListGroup>
+                                </Card.Body>
+                              </Card>
+                            )}
+      
+                            {/* House Number Field */}
+                            <Form.Group className="mb-3">
+                              <Form.Label>
+                                <FaBuilding className="me-2" />
+                                House/Flat Number
+                              </Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="houseNumber"
+                                value={newAddress.houseNumber}
+                                onChange={handleAddressChange}
+                                placeholder="e.g., 10, Flat 2A"
+                              />
+                              <Form.Text className="text-muted">
+                                Enter your house or flat number (optional)
+                              </Form.Text>
+                            </Form.Group>
+      
+                            {/* Street Address */}
+                            <Form.Group className="mb-3">
+                              <Form.Label>
+                                <FaHome className="me-2" />
+                                Street Address *
+                              </Form.Label>
+                              <Form.Control
+                                type="text"
+                                name="street"
+                                value={newAddress.street}
+                                onChange={handleAddressChange}
+                                isInvalid={!!addressErrors.street}
+                                placeholder="Main Street, High Road, etc."
+                                className={newAddress.street.trim() !== '' ? 'bg-light' : ''}
+                              />
+                              <Form.Control.Feedback type="invalid">
+                                {addressErrors.street}
+                              </Form.Control.Feedback>
+                            </Form.Group>
+      
+                            {/* City and County */}
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group className="mb-3">
+                                  <Form.Label>
+                                    <FaCity className="me-2" />
+                                    City/Town *
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    name="city"
+                                    value={newAddress.city}
+                                    onChange={handleAddressChange}
+                                    isInvalid={!!addressErrors.city}
+                                    placeholder="London, Manchester, etc."
+                                    className={newAddress.city.trim() !== '' ? 'bg-light' : ''}
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {addressErrors.city}
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group className="mb-3">
+                                  <Form.Label>
+                                    <FaMapPin className="me-2" />
+                                    County *
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    name="county"
+                                    value={newAddress.county}
+                                    onChange={handleAddressChange}
+                                    isInvalid={!!addressErrors.county}
+                                    placeholder="County will auto-fill"
+                                    readOnly={newAddress.county.trim() !== ''}
+                                    className={newAddress.county.trim() !== '' ? 'bg-light' : ''}
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {addressErrors.county}
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+      
+                            {/* Postcode and Country */}
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group className="mb-3">
+                                  <Form.Label>
+                                    <FaGlobe className="me-2" />
+                                    Postcode *
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    name="postcode"
+                                    value={newAddress.postcode}
+                                    onChange={handleAddressChange}
+                                    isInvalid={!!addressErrors.postcode}
+                                    placeholder="SW1A 1AA"
+                                    readOnly={newAddress.postcode.trim() !== ''}
+                                    className={newAddress.postcode.trim() !== '' ? 'bg-light' : ''}
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {addressErrors.postcode}
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group className="mb-3">
+                                  <Form.Label>
+                                    <FaGlobe className="me-2" />
+                                    Country
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="text"
+                                    value="United Kingdom"
+                                    readOnly
+                                    disabled
+                                    className="bg-light"
+                                  />
+                                </Form.Group>
+                              </Col>
+                            </Row>
+      
+                            <div className="d-flex justify-content-between mt-4">
+                              {addresses.length > 0 && (
+                                <Button 
+                                  variant="outline-secondary" 
+                                  onClick={() => setUseNewAddress(false)}
+                                >
+                                  Back to saved addresses
+                                </Button>
+                              )}
+                              <Button type="submit" variant="primary">
+                                Continue to Review
+                              </Button>
+                            </div>
+                          </Form>
+                        </div>
+                      )}
     </Card.Body>
   </Card>
 )}
