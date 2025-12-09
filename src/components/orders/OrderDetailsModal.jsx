@@ -381,11 +381,9 @@ const OrderDetailsModal = ({ orderId, show, onHide, onStatusUpdate }) => {
             </div>
           </div>
 
-          {/* Order Summary */}
-         // OrderDetailsModal.jsx - Update the Order Summary section
+          
 
 {/* Order Summary */}
-// Update the Order Summary section in OrderDetailsModal.jsx
 <Row>
   <Col md={6}></Col>
   <Col md={6}>
