@@ -112,14 +112,14 @@ const Footer = () => {
                   <FaPhone className="contact-icon" />
                   <div className="contact-info">
                     <strong>Phone</strong>
-                    <p>+44 (0) 20 7123 4567</p>
+                    <p>+44 (0) 74 5978 8005</p>
                   </div>
                 </li>
                 <li>
                   <FaEnvelope className="contact-icon" />
                   <div className="contact-info">
                     <strong>Email</strong>
-                    <p>support@kaytani.co.uk</p>
+                    <p>support@kirtilondon.co.uk</p>
                   </div>
                 </li>
                 <li>

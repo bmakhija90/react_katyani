@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { productService } from '../../services/productService';
 import { Form, Button, Row, Col, Alert, Card, Tab, Nav,Badge } from 'react-bootstrap';
-import { FaUpload, FaImage, FaTags, FaBox, FaDollarSign, FaInfoCircle } from 'react-icons/fa';
+import { FaUpload, FaImage, FaTags, FaBox, FaDollarSign, FaInfoCircle,FaPoundSign } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
@@ -209,7 +209,7 @@ const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
                       <Form.Label>Price (£) *</Form.Label>
                       <div className="input-group">
                         <span className="input-group-text">
-                          <FaDollarSign />
+                          <FaPoundSign />
                         </span>
                         <Form.Control
                           type="number"
