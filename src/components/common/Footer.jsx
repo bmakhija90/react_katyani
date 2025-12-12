@@ -430,8 +430,8 @@ const Footer = () => {
             <Col md={6}>
               <div className="contact-info-modal">
                 <h6>Customer Service</h6>
-                <p><FaPhone className="me-2" /> +44 (0) 20 7123 4567</p>
-                <p><FaEnvelope className="me-2" /> support@kaytani.co.uk</p>
+                <p><FaPhone className="me-2" /> +44 (0) 74 5978 8005</p>
+                <p><FaEnvelope className="me-2" /> support@kirtilondon.co.uk</p>
                 
                 <h6 className="mt-4">Business Hours</h6>
                 <p>Monday - Friday: 9:00 AM - 6:00 PM</p>

@@ -206,7 +206,7 @@ const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
                   </Col>
                   <Col md={4}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Price ($) *</Form.Label>
+                      <Form.Label>Price (£) *</Form.Label>
                       <div className="input-group">
                         <span className="input-group-text">
                           <FaDollarSign />
