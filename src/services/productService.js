@@ -48,13 +48,53 @@ export const productService = {
   },
 
   updateProduct: async (id, productData) => {
-    try {
+  try {
+    // Check if we have image files to upload
+    const hasImageFiles = productData.images && 
+                         Array.isArray(productData.images) && 
+                         productData.images.some(img => img instanceof File || img instanceof Blob);
+    
+    if (hasImageFiles) {
+      // Use FormData for updates with new images
+      const formData = new FormData();
+      
+      // Add images
+      productData.images.forEach((file, index) => {
+        if (file instanceof File || file instanceof Blob) {
+          formData.append('images', file);
+        }
+      });
+      
+      // Add other product data
+      Object.keys(productData).forEach(key => {
+        if (key === 'sizes' && Array.isArray(productData[key])) {
+          formData.append('sizes', productData[key].join(','));
+        } else if (key === 'images') {
+          // Already handled above
+        } else if (productData[key] !== null && productData[key] !== undefined) {
+          formData.append(key, productData[key]);
+        }
+      });
+      
+      // Add flag to append images (not replace)
+      formData.append('replace_images', 'false');
+      
+      const response = await api.put(`/products/${id}`, formData,{
+         headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } else {
+      // No new images, send as JSON
       const response = await api.put(`/products/${id}`, productData);
       return response.data;
-    } catch (error) {
-      throw error.response?.data || error.message;
     }
-  },
+  } catch (error) {
+    console.error('Update product error:', error);
+    throw error.response?.data || error.message;
+  }
+},
 
   getCategories: async () => {
     try {

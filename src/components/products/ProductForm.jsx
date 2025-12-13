@@ -13,7 +13,6 @@ const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
     stock: 0,
     availability: true,
     sizes: [],
-    tags: '',
     images: []
   });
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -31,7 +30,6 @@ const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
         stock: product.stock || 0,
         availability: product.availability ?? true,
         sizes: product.sizes || [],
-        tags: product.tags?.join(', ') || '',
         images: []
       });
       if (product.images) {
@@ -115,8 +113,7 @@ const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
         ...formData,
         price: parseFloat(formData.price),
         stock: parseInt(formData.stock),
-        sizes: formData.sizes.filter(Boolean),
-        tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+        sizes: formData.sizes.filter(Boolean)
       };
 
       if (product) {
@@ -268,21 +265,6 @@ const ProductForm = ({ product, categories, onSuccess, onCancel }) => {
                       <Form.Control.Feedback type="invalid">
                         {errors.category}
                       </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Tags</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="tags"
-                        value={formData.tags}
-                        onChange={handleChange}
-                        placeholder="e.g., electronics, wireless, premium, new-arrival"
-                      />
-                      <Form.Text className="text-muted">
-                        Comma-separated tags for better searchability
-                      </Form.Text>
                     </Form.Group>
                   </Col>
                 </Row>
