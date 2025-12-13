@@ -191,14 +191,27 @@ const ProductDetail = () => {
               </div>
               
               {product.tags && product.tags.length > 0 && (
-                <div className="d-flex flex-wrap gap-2">
-                  {product.tags.map(tag => (
-                    <Badge key={tag} bg="light" text="dark" className="border">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              )}
+  <div className="d-flex flex-wrap gap-2">
+    {product.tags.map(tag => (
+      <Badge 
+        key={tag} 
+        bg="light" 
+        text="dark" 
+        className="border"
+        style={{
+          maxWidth: '100%',
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          overflowWrap: 'break-word',
+          display: 'inline-block'
+        }}
+      >
+        {tag}
+      </Badge>
+    ))}
+  </div>
+)}
+
             </div>
 
             {product.sizes && product.sizes.length > 0 && (
